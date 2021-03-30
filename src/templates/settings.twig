@@ -1,0 +1,29 @@
+{% import "_includes/forms" as forms %}
+
+{{ forms.autosuggestField({
+    label: 'Google Translate Key',
+    instructions: 'Either the API key or the project ID, when using the project ID turn off the switch below.',
+    id: 'googleTranslateKey',
+    name: 'googleTranslateKey',
+    value: settings['googleTranslateKey'],
+    required: true,
+    suggestEnvVars: true})
+}}
+
+{{ forms.textField({
+    label: 'Cache timer',
+    instructions: 'How many seconds does the cache timer need to exist.',
+    id: 'cacheTime',
+    name: 'cacheTime',
+    value: settings['cacheTime'],
+    required: true})
+}}
+
+{#
+    {{ forms.lightswitchField({
+        label: 'Use API key',
+        id: 'useApiKey',
+        name: 'useApiKey',
+        on: settings['useApiKey']})
+    }}
+#}

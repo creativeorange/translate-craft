@@ -1,0 +1,42 @@
+{
+  "name": "creativeorange/translate-craft",
+  "description": "Use google translate in your craft projects",
+  "type": "craft-plugin",
+  "keywords": [
+    "google",
+    "translate",
+    "craft",
+    "cms",
+    "craftcms",
+    "craft-plugin"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Esdert Folkers",
+      "email": "esdert@creativeorange.nl",
+      "homepage": "https://creativeorange.nl",
+      "role": "developer"
+    }
+  ],
+  "support": {
+    "email": "info@creativeorange.nl",
+    "issues": "https://github.com/creativeorange/translate-craft/issues?state=open",
+    "source": "https://github.com/creativeorange/translate-craft",
+    "docs": "https://github.com/creativeorange/translate-craft/blob/master/README.md"
+  },
+  "require": {
+    "craftcms/cms": "^3.6.0",
+    "google/cloud-translate": "^1.10"
+  },
+  "autoload": {
+    "psr-4": {
+      "Creativeorange\\Translate\\": "src/"
+    }
+  },
+  "extra": {
+    "name": "Translate",
+    "handle": "translate",
+    "class": "Creativeorange\\Translate\\Translate"
+  }
+}
