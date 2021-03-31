@@ -2,6 +2,7 @@
   "name": "creativeorange/translate-craft",
   "description": "Use google translate in your craft projects",
   "type": "craft-plugin",
+  "version": "1.0.1",
   "keywords": [
     "google",
     "translate",
