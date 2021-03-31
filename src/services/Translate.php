@@ -40,6 +40,10 @@ class Translate extends Component
             throw new TranslateException("Please specify at least 1 parameter for the translate filter with context `${content}`");
         }
 
+        if ($from_language === null) {
+            $from_language = \Craft::$app->sites->getCurrentSite()->language;
+        }
+
         $text = $content;
 
         if (\creativeorange\translate\Translate::$plugin->getSettings()->useApiKey) {
