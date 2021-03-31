@@ -9,7 +9,7 @@ class Settings extends Model
 {
     public $googleTranslateKey;
     public $path;
-    public $cacheTime = 3600;
+    public $cacheTime = 31556926;
     public $useApiKey = true;
 
     public function rules()
