@@ -1,6 +1,6 @@
 <?php
 
-namespace Creativeorange\Translate\web\twig\extensions;
+namespace creativeorange\translate\web\twig\extensions;
 
 use Twig\Extension\ExtensionInterface;
 use Twig\TwigFilter;
@@ -11,11 +11,11 @@ class Translate implements ExtensionInterface
     {
         return [
             new TwigFilter('translate', [
-                \Creativeorange\Translate\services\Translate::class,
+                \creativeorange\translate\services\Translate::class,
                 'translate',
             ]),
             new TwigFilter('t', [
-                \Creativeorange\Translate\services\Translate::class,
+                \creativeorange\translate\services\Translate::class,
                 'translate',
             ])
         ];

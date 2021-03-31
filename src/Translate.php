@@ -1,10 +1,10 @@
 <?php
 
-namespace Creativeorange\Translate;
+namespace creativeorange\translate;
 
 use Craft;
 use craft\base\Plugin;
-use Creativeorange\Translate\models\Settings;
+use creativeorange\translate\models\Settings;
 
 class Translate extends Plugin
 {
@@ -40,14 +40,14 @@ class Translate extends Plugin
     {
         if (Craft::$app->request->getIsSiteRequest()) {
             // Add the twig extensions
-            Craft::$app->view->registerTwigExtension(new \Creativeorange\Translate\web\twig\extensions\Translate);
+            Craft::$app->view->registerTwigExtension(new \creativeorange\translate\web\twig\extensions\Translate);
         }
     }
 
     private function setPluginComponents()
     {
         $this->setComponents([
-            'translate' => \Creativeorange\Translate\services\Translate::class,
+            'translate' => \creativeorange\translate\services\Translate::class,
         ]);
     }
 }

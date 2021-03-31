@@ -1,6 +1,6 @@
 <?php
 
-namespace Creativeorange\Translate\exceptions;
+namespace creativeorange\translate\exceptions;
 
 class TranslateException extends \Exception
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Creativeorange\Translate\models;
+namespace creativeorange\translate\models;
 
 use Craft;
 use craft\base\Model;
@@ -8,13 +8,14 @@ use craft\base\Model;
 class Settings extends Model
 {
     public $googleTranslateKey;
+    public $path;
     public $cacheTime = 3600;
     public $useApiKey = true;
 
     public function rules()
     {
         return [
-            [['googleTranslateKey'], 'string'],
+            [['googleTranslateKey', 'path'], 'string'],
             [['cacheTime'], 'number'],
             [['useApiKey'], 'boolean'],
         ];
@@ -23,5 +24,10 @@ class Settings extends Model
     public function getGoogleTranslateKey()
     {
         return Craft::parseEnv($this->googleTranslateKey);
+    }
+
+    public function getPath()
+    {
+        return Craft::parseEnv($this->path);
     }
 }

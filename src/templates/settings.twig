@@ -11,6 +11,7 @@
 }}
 
 {{ forms.textField({
+    type: 'number',
     label: 'Cache timer',
     instructions: 'How many seconds does the cache timer need to exist.',
     id: 'cacheTime',
@@ -19,11 +20,22 @@
     required: true})
 }}
 
-{#
-    {{ forms.lightswitchField({
-        label: 'Use API key',
-        id: 'useApiKey',
-        name: 'useApiKey',
-        on: settings['useApiKey']})
-    }}
-#}
+{{ forms.autosuggestField({
+    label: "Credentials Path",
+    instructions: "The path to the credentials file. Only needed when not using an API key",
+    id: 'path',
+    class: 'ltr',
+    name: 'path',
+    suggestEnvVars: true,
+    suggestAliases: true,
+    value: settings['path'],
+    placeholder: "/path/to/folder"
+}) }}
+
+
+{{ forms.lightswitchField({
+    label: 'Use API key',
+    id: 'useApiKey',
+    name: 'useApiKey',
+    on: settings['useApiKey']})
+}}

@@ -1,9 +1,8 @@
 <?php
 
-namespace Creativeorange\Translate\services;
+namespace creativeorange\translate\services;
 
-use craft\elements\db\ElementQuery;
-use Creativeorange\Translate\exceptions\TranslateException;
+use creativeorange\translate\exceptions\TranslateException;
 use Google\Cloud\Translate\V2\TranslateClient;
 use Google\Cloud\Translate\V3\TranslationServiceClient;
 use yii\base\Component;
@@ -17,7 +16,7 @@ class Translate extends Component
     {
         if (self::$translation_client_v2 === null) {
             self::$translation_client_v2 = new TranslateClient([
-                'key' => \Creativeorange\Translate\Translate::$plugin->getSettings()->getGoogleTranslateKey()
+                'key' => \creativeorange\translate\Translate::$plugin->getSettings()->getGoogleTranslateKey()
             ]);
         }
 
@@ -27,7 +26,9 @@ class Translate extends Component
     private static function getV3TranslationClientInstance(): TranslationServiceClient
     {
         if (self::$translation_client_v3 === null) {
-            self::$translation_client_v3 = new TranslationServiceClient();
+            self::$translation_client_v3 = new TranslationServiceClient([
+                'credentials' => \creativeorange\translate\Translate::$plugin->getSettings()->getPath()
+            ]);
         }
 
         return self::$translation_client_v3;
@@ -39,25 +40,30 @@ class Translate extends Component
             throw new TranslateException("Please specify at least 1 parameter for the translate filter with context `${content}`");
         }
 
-        if (\Creativeorange\Translate\Translate::$plugin->getSettings()->useApiKey) {
+        $text = $content;
+
+        if (\creativeorange\translate\Translate::$plugin->getSettings()->useApiKey) {
             // Use V2
             $hash = \md5("V2_{$to_language}_{$from_language}_{$content}");
 
             $translation = \Craft::$app->cache->getOrSet($hash, function () use ($content, $to_language, $from_language) {
                 return self::translateV2($content, $to_language, $from_language);
-            }, \Creativeorange\Translate\Translate::$plugin->getSettings()->cacheTime);
+            }, \creativeorange\translate\Translate::$plugin->getSettings()->cacheTime);
+
+            if (\is_array($translation) && !empty($translation['text'])) {
+                $text = $translation['text'];
+            }
         } else {
             // Use V3
             $hash = \md5("V3_{$to_language}_{$from_language}_{$content}");
 
             $translation = \Craft::$app->cache->getOrSet($hash, function () use ($content, $to_language, $from_language) {
                 return self::translateV3($content, $to_language, $from_language);
-            }, \Creativeorange\Translate\Translate::$plugin->getSettings()->cacheTime);
-        }
+            }, \creativeorange\translate\Translate::$plugin->getSettings()->cacheTime);
 
-        $text = $content;
-        if (\is_array($translation) && !empty($translation['text'])) {
-            $text = $translation['text'];
+            if (isset($translation->getTranslations()[0])) {
+                $text = $translation->getTranslations()[0]->getTranslatedText();
+            }
         }
 
         return $text;
@@ -85,9 +91,10 @@ class Translate extends Component
         }
 
         return self::getV3TranslationClientInstance()->translateText(
-            $content,
+            [$content],
             $to_language,
-            TranslationServiceClient::locationName(\Creativeorange\Translate\Translate::$plugin->getSettings()->getGoogleTranslateKey(), 'global'),
+            TranslationServiceClient::locationName(
+                \creativeorange\translate\Translate::$plugin->getSettings()->getGoogleTranslateKey(), 'global'),
             $extra_options,
         );
     }

@@ -31,12 +31,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Creativeorange\\Translate\\": "src/"
+      "creativeorange\\translate\\": "src/"
     }
   },
   "extra": {
     "name": "Translate",
     "handle": "translate",
-    "class": "Creativeorange\\Translate\\Translate"
+    "class": "creativeorange\\translate\\Translate"
   }
 }
