@@ -10,11 +10,11 @@ class Translate implements ExtensionInterface
     public function getFilters()
     {
         return [
-            new TwigFilter('translate', [
+            new TwigFilter('cloud-translate', [
                 \creativeorange\translate\services\Translate::class,
                 'translate',
             ]),
-            new TwigFilter('t', [
+            new TwigFilter('ct', [
                 \creativeorange\translate\services\Translate::class,
                 'translate',
             ])
