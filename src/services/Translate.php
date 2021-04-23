@@ -46,6 +46,10 @@ class Translate extends Component
 
         $text = $content;
 
+        if ($to_language === $from_language) {
+            return $text;
+        }
+
         if (\creativeorange\translate\Translate::$plugin->getSettings()->useApiKey) {
             // Use V2
             $hash = \md5("V2_{$to_language}_{$from_language}_{$content}");
