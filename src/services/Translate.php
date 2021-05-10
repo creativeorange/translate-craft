@@ -50,9 +50,18 @@ class Translate extends Component
             return $text;
         }
 
+        $settings = \json_encode(\creativeorange\translate\Translate::$plugin->getSettings()->getEnabledExcludedWords());
+
+        foreach (\creativeorange\translate\Translate::$plugin->getSettings()->getEnabledExcludedWords() as $word) {
+            $content = preg_replace('/(\s)?(' . $word . ')(\s|$|[^A-Za-z0-9])/i', '<span translate="no">$2</span>$3', $content);
+        }
+
+        $content = '<div>' . $content . '</div>';
+        
+        \Craft::$app->cache->flush();
         if (\creativeorange\translate\Translate::$plugin->getSettings()->useApiKey) {
             // Use V2
-            $hash = \md5("V2_{$to_language}_{$from_language}_{$content}");
+            $hash = \md5("V2_{$to_language}_{$from_language}_{$content}_{$settings}");
 
             $translation = \Craft::$app->cache->getOrSet($hash, function () use ($content, $to_language, $from_language) {
                 return self::translateV2($content, $to_language, $from_language);
@@ -63,7 +72,7 @@ class Translate extends Component
             }
         } else {
             // Use V3
-            $hash = \md5("V3_{$to_language}_{$from_language}_{$content}");
+            $hash = \md5("V3_{$to_language}_{$from_language}_{$content}_{$settings}");
 
             $translation = \Craft::$app->cache->getOrSet($hash, function () use ($content, $to_language, $from_language) {
                 return self::translateV3($content, $to_language, $from_language);
@@ -74,7 +83,7 @@ class Translate extends Component
             }
         }
 
-        return $text;
+        return preg_replace('/(<\/span>) ([^A-Za-z0-9<])/i', '$1$2', $text);
     }
 
     private static function translateV2($content, $to_language, $from_language = null)

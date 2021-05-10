@@ -9,6 +9,7 @@ class Settings extends Model
 {
     public $googleTranslateKey;
     public $path;
+    public $excludedWords = [];
     public $cacheTime = 31556926;
     public $useApiKey = true;
 
@@ -29,5 +30,25 @@ class Settings extends Model
     public function getPath()
     {
         return Craft::parseEnv($this->path);
+    }
+
+    public function getExcludedWords()
+    {
+        return $this->excludedWords;
+    }
+
+    public function getEnabledExcludedWords()
+    {
+        return \array_map(
+            function ($word) {
+                return $word['word'];
+            },
+            \array_filter(
+                $this->excludedWords,
+                function ($word) {
+                    return $word['enabled'];
+                }
+            )
+        );
     }
 }

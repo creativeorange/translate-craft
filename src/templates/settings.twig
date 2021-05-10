@@ -39,3 +39,22 @@
     name: 'useApiKey',
     on: settings['useApiKey']})
 }}
+
+{{ forms.editableTableField({
+    label: "Excluded words",
+    instructions: 'Enter words that should not be translated here. They will be excluded from translating.',
+    id : 'excludedWords',
+    name : 'excludedWords',
+    cols : {
+        'word' : {
+            'heading' : 'Word',
+            'type' : 'singleline'
+        },
+        'enabled' : {
+            'heading' : 'Enabled',
+            'type' : 'checkbox'
+        }
+    },
+    rows: settings.excludedWords,
+    addRowLabel: 'Add excluded word'})
+}}
