@@ -57,8 +57,7 @@ class Translate extends Component
         }
 
         $content = '<div>' . $content . '</div>';
-        
-        \Craft::$app->cache->flush();
+
         if (\creativeorange\translate\Translate::$plugin->getSettings()->useApiKey) {
             // Use V2
             $hash = \md5("V2_{$to_language}_{$from_language}_{$content}_{$settings}");
